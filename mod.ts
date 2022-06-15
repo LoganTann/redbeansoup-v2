@@ -6,6 +6,6 @@ import { loadUserFiles } from "./framework/fileloader.ts";
 
 await loadUserFiles();
 
-log.info("Connecting to Discord...");
+log.info("[MOD.TS] Connecting to Discord...");
 
 await startBot(Bot);

@@ -99,7 +99,9 @@ function loadCommandsToSet(
         const cmdName = commandDir.name;
         const relativePath = `src/commands/${cmdName}/${cmdName}.ts`;
         if (!isFileExists(relativePath)) {
-            log.error(`Command ${cmdName} : ${relativePath} is not a file.`);
+            log.error(
+                `[AUTOLOAD] Command ${cmdName} : ${relativePath} is not a file.`
+            );
             continue;
         }
         arrayReference.push(relativePath);

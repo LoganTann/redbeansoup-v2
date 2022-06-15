@@ -2,7 +2,6 @@ import { Bot } from "../../framework/bot.ts";
 import log from "../../framework/logger.ts";
 
 Bot.events.messageCreate = async (bot, interaction) => {
-    log.info(`aaaa`);
     if (interaction.isBot) {
         return;
     }
