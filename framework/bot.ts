@@ -1,3 +1,7 @@
+/**
+ * This file builds the bot client
+ */
+
 import { config } from "../config.ts";
 import {
     BotWithCache,
@@ -9,7 +13,9 @@ import {
     enableHelpersPlugin,
     enablePermissionsPlugin,
 } from "../deps.ts";
-import { log } from "../framework/logger.ts";
+
+import { log } from "./logger.ts";
+import ICommand from "./types/ICommand.ts";
 
 // MAKE THE BASIC BOT OBJECT
 const bot = createBot({
@@ -25,13 +31,18 @@ enableCachePlugin(bot);
 enableCacheSweepers(bot as BotWithCache);
 enablePermissionsPlugin(bot as BotWithCache);
 
-// will do
-interface Command {}
-
 export interface BotClient extends BotWithCache<BotWithHelpersPlugin> {
-    commands: Collection<string, Command>;
+    /**
+     * Stores the commands that the bot has registered
+     */
+    commands: Collection<string, ICommand>;
+    /**
+     * Associate the group name with commands' names
+     */
+    cmdGroup: Record<string, string[]>;
 }
 
 export const Bot = bot as BotClient;
 // PREPARE COMMANDS HOLDER
 Bot.commands = new Collection();
+Bot.cmdGroup = {};

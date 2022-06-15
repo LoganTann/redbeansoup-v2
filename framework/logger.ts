@@ -1,3 +1,9 @@
+/**
+ * Logging utility class taken from Discordeno Beginner Template
+ * @license Apache-2.0
+ * @source https://github.com/discordeno/discordeno/blob/main/template/beginner/src/utils/logger.ts
+ */
+
 // deno-lint-ignore-file no-explicit-any
 import { bold, cyan, gray, italic, red, yellow } from "../deps.ts";
 

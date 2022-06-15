@@ -1,5 +1,5 @@
 /**
- * Based on Discordeno fileloader plugin
+ * Inspiration from Discordeno fileloader plugin
  * @license Apache-2.0
  * @source https://github.com/discordeno/discordeno/blob/main/plugins/fileloader/mod.ts
  */
@@ -40,11 +40,11 @@ function findFilesToLoad(loadList: Array<string>): Array<string> {
  * Throws an error if current working directory is not the main module.
  */
 function checkCwdIsMainModule() {
-    const cwd = Deno.cwd();
+    let cwd = Deno.cwd();
     const mainModule = Deno.mainModule
         .replace(/file\:\/\/\/|\/mod.ts/g, "")
         .replace(/\//g, "\\");
-    if (cwd !== mainModule) {
+    if (cwd !== mainModule && cwd.substring(1) !== mainModule) {
         throw new Error(`[AUTOLOAD] CWD is not the main module. Please run this script from the main module.
     There is a high probability that the autoloading will not work, making the connecting process stuck.
     CWD is [${cwd}], Main Module is [${mainModule}]

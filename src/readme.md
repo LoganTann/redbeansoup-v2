@@ -33,7 +33,7 @@ Declare here your typescript interfaces or typedefs. This folder is not auto-imp
 
 **Naming** : 
 * camelCase, split types in packages if possible
-* class interfaces should be suffixed by `_INF`
+* class interfaces should be prefixed by I
 
 #### Utils
 

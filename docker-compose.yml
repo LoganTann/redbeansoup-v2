@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  redbeansoup:
+    image: denoland/deno:alpine
+    restart: unless-stopped
+    volumes:
+    - "./:/app" # redbeansoup source code
+    - "/deno-dir" # persist cached dependancies
+    working_dir: /app
+    command: deno run --allow-all --watch mod.ts
