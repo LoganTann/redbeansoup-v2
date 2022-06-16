@@ -1,6 +1,6 @@
-import { Bot } from "../bot.ts";
+import { Bot } from "framework/bot.ts";
 
-import ICommand from "../types/ICommand.ts";
+import ICommand from "framework/types/ICommand.ts";
 
 /**
  * Command decorator : register the class as a command into the bot

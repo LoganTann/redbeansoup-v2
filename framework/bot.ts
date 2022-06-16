@@ -2,7 +2,7 @@
  * This file builds the bot client
  */
 
-import { config } from "../config.ts";
+import env from "config";
 import {
     BotWithCache,
     BotWithHelpersPlugin,
@@ -11,14 +11,21 @@ import {
     enableCacheSweepers,
     enableHelpersPlugin,
     enablePermissionsPlugin,
-} from "../deps.ts";
-import CommandManager from "./classes/CommandManager/CommandManager.ts";
+    GatewayIntents,
+} from "discordeno";
+import CommandManager from "framework/classes/CommandManager/CommandManager.ts";
 
 // MAKE THE BASIC BOT OBJECT
 const bot = createBot({
-    token: config.BOT_TOKEN,
-    botId: BigInt(atob(config.BOT_TOKEN.split(".")[0])),
-    intents: ["Guilds", "GuildMessages"],
+    token: env.BOT_TOKEN,
+    botId: BigInt(atob(env.BOT_TOKEN.split(".")[0])),
+    intents:
+        GatewayIntents.Guilds |
+        GatewayIntents.GuildMessages |
+        GatewayIntents.MessageContent |
+        GatewayIntents.GuildMessageReactions |
+        GatewayIntents.GuildMessageTyping |
+        GatewayIntents.GuildWebhooks,
     events: {},
 });
 
@@ -35,4 +42,4 @@ export interface BotClient extends BotWithCache<BotWithHelpersPlugin> {
 export const Bot = bot as BotClient;
 
 // PREPARE COMMANDS HOLDER
-Bot.commands = new CommandManager();
+CommandManager.attachNewInstanceToBot(Bot);

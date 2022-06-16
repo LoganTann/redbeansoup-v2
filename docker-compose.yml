@@ -3,9 +3,9 @@ version: "3"
 services:
   redbeansoup:
     image: denoland/deno:alpine
-    restart: unless-stopped
+    #restart: unless-stopped
     volumes:
     - "./:/app" # redbeansoup source code
     - "/deno-dir" # persist cached dependancies
     working_dir: /app
-    command: deno run --allow-all mod.ts
+    command: deno run --import-map import_map.json --allow-all mod.ts

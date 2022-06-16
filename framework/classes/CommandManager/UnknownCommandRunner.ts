@@ -1,11 +1,7 @@
-import {
-    Interaction,
-    InteractionResponseTypes,
-    Message,
-} from "../../../deps.ts";
-import { BotClient } from "../../bot.ts";
-import InteractionContext from "../Context/InteractionContext.ts";
-import MessageContext from "../Context/MessageContext.ts";
+import { Interaction, Message } from "discordeno";
+import { BotClient } from "framework/bot.ts";
+import InteractionContext from "framework/classes/Context/InteractionContext.ts";
+import MessageContext from "framework/classes/Context/MessageContext.ts";
 import IRunner from "./IRunner.ts";
 
 export default class UnknownCommandRunner implements IRunner {

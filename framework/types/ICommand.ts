@@ -1,4 +1,4 @@
-import Context from "../classes/Context/IContext.ts";
+import Context from "framework/classes/Context/IContext.ts";
 
 /**
  * Interface that defines a bot command

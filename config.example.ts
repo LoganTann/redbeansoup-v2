@@ -3,7 +3,7 @@
  * The file config.ts SHOULD BE KEPT SECRET.
  */
 
-export const config = {
+export default {
     // Discord Developers -> Oauth2 -> Client ID
     CLIENT_ID: "",
     // Discord Developers -> Bot -> reset

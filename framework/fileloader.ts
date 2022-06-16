@@ -4,7 +4,7 @@
  * @source https://github.com/discordeno/discordeno/blob/main/plugins/fileloader/mod.ts
  */
 
-import { log } from "./logger.ts";
+import { log } from "framework/logger.ts";
 
 const rootPath = Deno.mainModule.substring(0, Deno.mainModule.lastIndexOf("/"));
 

@@ -1,5 +1,5 @@
-import { Interaction, InteractionResponseTypes } from "../../../deps.ts";
-import { BotClient } from "../../bot.ts";
+import { Interaction, InteractionResponseTypes } from "discordeno";
+import { BotClient } from "framework/bot.ts";
 import IContext from "./IContext.ts";
 
 export default class InteractionContext implements IContext {

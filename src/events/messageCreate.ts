@@ -1,4 +1,4 @@
-import { Bot, BotClient } from "../../framework/bot.ts";
+import { Bot, BotClient } from "framework/bot.ts";
 
 Bot.events.messageCreate = async (bot, interaction) => {
     if (interaction.isBot) {

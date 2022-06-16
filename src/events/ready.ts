@@ -1,12 +1,14 @@
-import { Bot } from "../../framework/bot.ts";
-import log from "../../framework/logger.ts";
+import { Bot } from "framework/bot.ts";
+import log from "framework/logger.ts";
 
 Bot.events.ready = (_, payload) => {
     log.info(
-        `[READY] Shard ID ${payload.shardId} of ${Bot.gateway.maxShards} shards is ready!`
+        `[READY] Shard ID ${payload.shardId + 1} of ${
+            Bot.gateway.manager.totalShards
+        } shards is ready!`
     );
 
-    if (payload.shardId + 1 === Bot.gateway.maxShards) {
+    if (payload.shardId + 1 === Bot.gateway.manager.totalShards) {
         botFullyReady();
     }
 };

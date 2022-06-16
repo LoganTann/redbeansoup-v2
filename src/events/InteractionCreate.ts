@@ -1,5 +1,5 @@
-import { Bot } from "../../framework/bot.ts";
-import { InteractionTypes } from "../../deps.ts";
+import { Bot } from "framework/bot.ts";
+import { InteractionTypes } from "discordeno";
 
 Bot.events.interactionCreate = (_bot, interaction) => {
     if (!interaction.data) return;

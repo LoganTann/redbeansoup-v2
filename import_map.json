@@ -1,0 +1,7 @@
+{
+    "imports": {
+        "discordeno": "./deps/discordeno.ts",
+        "config": "./config.ts",
+        "framework/": "./framework/"
+    }
+}

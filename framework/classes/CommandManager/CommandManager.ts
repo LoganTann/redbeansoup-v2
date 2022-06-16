@@ -1,5 +1,8 @@
-import { Collection } from "../../../deps.ts";
-import ICommand from "../../types/ICommand.ts";
+import env from "config";
+import { Collection } from "discordeno";
+import { BotClient } from "framework/bot.ts";
+import ICommand from "framework/types/ICommand.ts";
+import log from "framework/logger.ts";
 
 import ContextRunner from "./ContextRunner.ts";
 import IRunner from "./IRunner.ts";
@@ -9,9 +12,13 @@ import UnknownCommandRunner from "./UnknownCommandRunner.ts";
  * Stores the commands and their handlers.
  */
 export default class CommandManager {
-    constructor() {
+    constructor(private bot: BotClient) {
         this.commandCollection = new Collection<string, ICommand>();
         this.commandGroups = {};
+    }
+
+    static attachNewInstanceToBot(bot: BotClient) {
+        bot.commands = new CommandManager(bot);
     }
 
     /**
@@ -52,5 +59,25 @@ export default class CommandManager {
             return new ContextRunner(command);
         }
         return new UnknownCommandRunner(commandName);
+    }
+
+    async deploy() {
+        const globalCommands = this.commandCollection
+            // ONLY GLOBAL COMMANDS
+            .filter((command) => !command.devOnly)
+            .array();
+
+        const devCommands = this.commandCollection
+            // ONLY DEV COMMANDS
+            .filter((command) => !!command.devOnly)
+            .array();
+
+        log.info("[COMMAND MANAGER] Deploying commands...");
+        await this.bot.helpers.upsertApplicationCommands(globalCommands);
+
+        await this.bot.helpers.upsertApplicationCommands(
+            devCommands,
+            BigInt(env.DEV_GUILD_ID)
+        );
     }
 }
