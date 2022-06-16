@@ -1,6 +1,6 @@
 import ICommand from "../../../framework/types/ICommand.ts";
 import Command from "../../../framework/decorators/Command.ts";
-import Context from "../../../framework/classes/Context.ts";
+import Context from "../../../framework/classes/Context/IContext.ts";
 
 @Command
 class Ping implements ICommand {
@@ -8,6 +8,6 @@ class Ping implements ICommand {
     description = "let the bot reply pong !";
 
     async run(ctx: Context) {
-        ctx.reply("pong");
+        ctx.replyText("pong");
     }
 }

@@ -8,4 +8,4 @@ services:
     - "./:/app" # redbeansoup source code
     - "/deno-dir" # persist cached dependancies
     working_dir: /app
-    command: deno run --allow-all --watch mod.ts
+    command: deno run --allow-all mod.ts

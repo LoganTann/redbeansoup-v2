@@ -10,13 +10,5 @@ export default function Command<
     T extends { new (...args: unknown[]): ICommand }
 >(target: T): void {
     const commandClass: ICommand = new target();
-
-    const commandName = commandClass.name;
-    Bot.commands.set(commandName, commandClass);
-
-    const commandGroup = commandClass.group || "default";
-    if (!Array.isArray(Bot.cmdGroup[commandGroup])) {
-        Bot.cmdGroup[commandGroup] = [];
-    }
-    Bot.cmdGroup[commandGroup].push(commandName);
+    Bot.commands.registerCommand(commandClass);
 }

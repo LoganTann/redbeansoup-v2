@@ -6,16 +6,13 @@ import { config } from "../config.ts";
 import {
     BotWithCache,
     BotWithHelpersPlugin,
-    Collection,
     createBot,
     enableCachePlugin,
     enableCacheSweepers,
     enableHelpersPlugin,
     enablePermissionsPlugin,
 } from "../deps.ts";
-
-import { log } from "./logger.ts";
-import ICommand from "./types/ICommand.ts";
+import CommandManager from "./classes/CommandManager/CommandManager.ts";
 
 // MAKE THE BASIC BOT OBJECT
 const bot = createBot({
@@ -32,17 +29,10 @@ enableCacheSweepers(bot as BotWithCache);
 enablePermissionsPlugin(bot as BotWithCache);
 
 export interface BotClient extends BotWithCache<BotWithHelpersPlugin> {
-    /**
-     * Stores the commands that the bot has registered
-     */
-    commands: Collection<string, ICommand>;
-    /**
-     * Associate the group name with commands' names
-     */
-    cmdGroup: Record<string, string[]>;
+    commands: CommandManager;
 }
 
 export const Bot = bot as BotClient;
+
 // PREPARE COMMANDS HOLDER
-Bot.commands = new Collection();
-Bot.cmdGroup = {};
+Bot.commands = new CommandManager();
