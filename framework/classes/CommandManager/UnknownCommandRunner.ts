@@ -17,7 +17,7 @@ export default class UnknownCommandRunner implements IRunner {
     }
 
     async runFromMessage(bot: BotClient, message: Message): Promise<void> {
-        new MessageContext(bot, message).replyText(
+        new MessageContext(bot, message).replyEphemeralText(
             `Unknown command: ${this.commandName}`
         );
     }

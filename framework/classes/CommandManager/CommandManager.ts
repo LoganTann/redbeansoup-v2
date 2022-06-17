@@ -21,6 +21,10 @@ export default class CommandManager {
         bot.commands = new CommandManager(bot);
     }
 
+    get prefix() {
+        return "$";
+    }
+
     /**
      * Stores the commands that the bot has registered
      */
