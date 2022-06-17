@@ -1,4 +1,4 @@
-import { Message } from "discordeno";
+import { Embed, Message } from "discordeno";
 import { BotClient } from "framework/bot.ts";
 import IContext from "./IContext.ts";
 
@@ -20,5 +20,12 @@ export default class MessageContext implements IContext {
             );
         }
         return undefined;
+    }
+
+    replyEmbed(embed: Embed, text?: string): Promise<Message | undefined> {
+        return this.bot.helpers.sendMessage(this.message.channelId, {
+            content: text,
+            embeds: [embed],
+        });
     }
 }
