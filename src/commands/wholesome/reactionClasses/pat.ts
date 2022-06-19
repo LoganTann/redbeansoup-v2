@@ -2,7 +2,10 @@ import ICommand from "framework/types/ICommand.ts";
 import Command from "framework/decorators/Command.ts";
 import IContext from "framework/classes/Context/IContext.ts";
 import getImgUrl from "../getImgUrl.ts";
-import { ApplicationCommandOptionTypes } from "discordeno";
+import {
+    ApplicationCommandOption,
+    ApplicationCommandOptionTypes,
+} from "discordeno";
 
 @Command
 export default class Pat implements ICommand {
@@ -11,7 +14,7 @@ export default class Pat implements ICommand {
 
     group = "wholesome";
 
-    options = [
+    options: ApplicationCommandOption[] = [
         {
             name: "user",
             description: "user to pat",

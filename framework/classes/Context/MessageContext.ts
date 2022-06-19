@@ -1,12 +1,37 @@
 import { Embed, Message, DiscordMemberWithUser } from "discordeno";
 import { BotClient } from "framework/bot.ts";
 import { getMember } from "framework/utils/getDiscordMember.ts";
+import ICommand from "framework/types/ICommand.ts";
 import IContext from "./IContext.ts";
+import log from "framework/logger.ts";
 
 export default class MessageContext implements IContext {
-    constructor(private bot: BotClient, private message: Message) {}
+    constructor(
+        private bot: BotClient,
+        private message: Message,
+        private command: ICommand | null = null
+    ) {}
     getOption(name: string | number): string | undefined {
-        return "NOT IMPLEMENTED";
+        if (!this.command?.regexParser) {
+            throw new Error(
+                "No regex parser generated for this input: " +
+                    this.message.content
+            );
+        }
+        const matches = this.message.content.match(this.command.regexParser);
+        if (!matches) {
+            log.error(
+                "No match found for regex parser: " +
+                    this.command.regexParser +
+                    " in message: " +
+                    this.message.content
+            );
+            return undefined;
+        }
+        if (typeof name === "number") {
+            return name < matches.length ? matches[name + 1] : undefined;
+        }
+        return matches.groups ? matches.groups[name] : undefined;
     }
     getSenderNickname(): Promise<string> {
         return Promise.resolve(

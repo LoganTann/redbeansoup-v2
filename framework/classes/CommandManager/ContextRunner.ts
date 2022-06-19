@@ -13,11 +13,19 @@ export default class ContextRunner implements IRunner {
         bot: BotClient,
         interaction: Interaction
     ): Promise<void> {
-        const context: IContext = new InteractionContext(bot, interaction);
+        const context: IContext = new InteractionContext(
+            bot,
+            interaction,
+            this.command
+        );
         return this.command.run(context);
     }
     runFromMessage(bot: BotClient, message: Message): Promise<void> {
-        const context: IContext = new MessageContext(bot, message);
+        const context: IContext = new MessageContext(
+            bot,
+            message,
+            this.command
+        );
         return this.command.run(context);
     }
 }

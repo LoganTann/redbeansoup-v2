@@ -7,6 +7,7 @@ import log from "framework/logger.ts";
 import ContextRunner from "./ContextRunner.ts";
 import IRunner from "./IRunner.ts";
 import UnknownCommandRunner from "./UnknownCommandRunner.ts";
+import MessageArgumentParser from "../../utils/messageArgumentParser.ts";
 
 /**
  * Stores the commands and their handlers.
@@ -44,6 +45,12 @@ export default class CommandManager {
         const name = commandToStore.name;
         this.commandCollection.set(name, commandToStore);
 
+        const options = new MessageArgumentParser(
+            commandToStore.options || []
+        ).normalizeOptions();
+        commandToStore.helpString = options.docSyntax.replace("NAME", name);
+        commandToStore.regexParser = options.regexSyntax;
+
         const group = commandToStore.group || "default";
         if (!Array.isArray(this.commandGroups[group])) {
             this.commandGroups[group] = [];
@@ -76,7 +83,9 @@ export default class CommandManager {
             .filter((command) => !!command.devOnly)
             .array();
 
-        log.info("[COMMAND MANAGER] Deploying commands...");
+        log.info(
+            `[COMMAND MANAGER] Deploying ${globalCommands.length} + ${devCommands.length} commands...`
+        );
         await this.bot.helpers.upsertApplicationCommands(globalCommands);
 
         await this.bot.helpers.upsertApplicationCommands(

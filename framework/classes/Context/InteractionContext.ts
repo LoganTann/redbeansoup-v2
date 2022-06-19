@@ -8,10 +8,15 @@ import {
 import { BotClient } from "framework/bot.ts";
 import log from "framework/logger.ts";
 import { getMember } from "framework/utils/getDiscordMember.ts";
+import ICommand from "framework/types/ICommand.ts";
 import IContext from "./IContext.ts";
 
 export default class InteractionContext implements IContext {
-    constructor(private bot: BotClient, private interaction: Interaction) {}
+    constructor(
+        private bot: BotClient,
+        private interaction: Interaction,
+        private command: ICommand | null = null
+    ) {}
 
     getOption(name: string | number): string | undefined {
         const options = this.interaction.data?.options || [];

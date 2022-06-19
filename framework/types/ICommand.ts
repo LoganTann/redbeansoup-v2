@@ -25,4 +25,8 @@ export default interface ICommand extends CreateApplicationCommand {
 
     devOnly?: boolean;
     group?: string;
+
+    /** should be writeable ! */
+    helpString?: string;
+    regexParser?: string;
 }
