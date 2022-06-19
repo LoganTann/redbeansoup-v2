@@ -18,18 +18,20 @@ export default class Pat implements ICommand {
             type: ApplicationCommandOptionTypes.User,
             required: false,
         },
-        {
-            name: "comment",
-            description: "a kind comment to add",
-            type: ApplicationCommandOptionTypes.String,
-            required: false,
-        },
     ];
 
     async run(ctx: IContext) {
         const title = "pat pat";
-        const description = "pat someone";
+        let description;
         const imgUrl = await getImgUrl("pat");
+
+        const userID = ctx.getOption("user") ?? ctx.getOption(0);
+        if (userID) {
+            const target = await ctx.getMember(userID);
+            const targetNick = target.nick || target.user.username;
+            const senderNick = await ctx.getSenderNickname();
+            description = `${senderNick} pats ${targetNick}`;
+        }
 
         ctx.replyEmbed({
             title,
