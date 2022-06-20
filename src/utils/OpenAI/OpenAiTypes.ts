@@ -8,3 +8,8 @@ export interface openAiUsageReponse {
     amount_granted_usd: number;
     amount_grant_used_usd: number;
 }
+export interface openAiCompletionResponse {
+    choices: Array<{
+        text: string;
+    }>;
+}

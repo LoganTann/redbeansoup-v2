@@ -11,6 +11,8 @@ export default class MessageContext implements IContext {
         private message: Message,
         private command: ICommand | null = null
     ) {}
+    public readonly contextName = "message";
+
     getOption(name: string | number): string | undefined {
         if (!this.command?.regexParser) {
             throw new Error(
@@ -43,27 +45,63 @@ export default class MessageContext implements IContext {
         return getMember(this.bot, this.message.guildId ?? 0n, userId);
     }
 
-    replyText(text: string): Promise<Message | undefined> {
-        return this.bot.helpers.sendTextMessage(this.message.channelId, text);
+    async replyText(text: string): Promise<Message | undefined> {
+        const messageRef = await this.sendMessage(text);
+        this.sentMessage = messageRef;
+        return messageRef;
     }
 
     async replyEphemeralText(text: string): Promise<Message | undefined> {
         const message = await this.replyText(text);
-        if (message) {
-            await this.bot.helpers.deleteMessage(
-                message.channelId,
-                message.id,
-                "ephemeral",
-                3000
-            );
+        if (!message) {
+            return undefined;
         }
-        return undefined;
+        await this.bot.helpers.deleteMessage(
+            message.channelId,
+            message.id,
+            "ephemeral",
+            3000
+        );
     }
 
-    replyEmbed(embed: Embed, text?: string): Promise<Message | undefined> {
+    async replyEmbed(
+        embed: Embed,
+        optionalText?: string
+    ): Promise<Message | undefined> {
+        const messageRef = await this.sendMessage(optionalText, [embed]);
+        this.sentMessage = messageRef;
+        return messageRef;
+    }
+
+    private sendMessage(
+        content?: string,
+        embeds?: Embed[]
+    ): Promise<Message | undefined> {
         return this.bot.helpers.sendMessage(this.message.channelId, {
-            content: text,
-            embeds: [embed],
+            content,
+            embeds,
+            messageReference: {
+                guildId: this.message.guildId,
+                channelId: this.message.channelId,
+                messageId: this.message.id,
+                failIfNotExists: false,
+            },
         });
+    }
+
+    private sentMessage?: Message;
+
+    editReply(content: string, embeds?: Embed[]): Promise<Message | undefined> {
+        if (!this.sentMessage) {
+            throw new Error("No message sent before");
+        }
+        return this.bot.helpers.editMessage(
+            this.sentMessage.channelId,
+            this.sentMessage.id,
+            {
+                content,
+                embeds,
+            }
+        );
     }
 }

@@ -4,6 +4,7 @@ import {
     Interaction,
     InteractionResponseTypes,
     Message,
+    editInteractionResponse,
 } from "discordeno";
 import { BotClient } from "framework/bot.ts";
 import log from "framework/logger.ts";
@@ -17,6 +18,7 @@ export default class InteractionContext implements IContext {
         private interaction: Interaction,
         private command: ICommand | null = null
     ) {}
+    public readonly contextName = "interaction";
 
     getOption(name: string | number): string | undefined {
         const options = this.interaction.data?.options || [];
@@ -67,5 +69,15 @@ export default class InteractionContext implements IContext {
                 },
             }
         );
+    }
+
+    editReply(content: string, embeds?: Embed[]): Promise<Message | undefined> {
+        if (!this.interaction.token) {
+            throw new Error("Message not sent");
+        }
+        return editInteractionResponse(this.bot, this.interaction.token, {
+            content,
+            embeds,
+        });
     }
 }

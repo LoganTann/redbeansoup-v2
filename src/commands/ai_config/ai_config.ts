@@ -7,15 +7,17 @@ import OpenAIClient from "../../utils/OpenAI/OpenAI.ts";
 import { generateUsageChart } from "../../utils/OpenAI/OpenAiUtils.ts";
 
 @Command
-class Momo implements ICommand {
-    name = "momo";
+class Ai implements ICommand {
+    name = "ai";
     description =
-        "Momo réponds à toutes vos demandes, grâce à l'API Beta d'OpenAI";
+        "Configure OpenAI, and get the remaining amount of credits you have for your token.";
+    group = "OpenAI";
 
     async run(ctx: IContext) {
+        ctx.replyText("Loading usage...");
         const client = new OpenAIClient(env.OPENAI_TOKEN);
         const usage = await client.fetchUsage();
         const usageChart = generateUsageChart(usage);
-        ctx.replyText(usageChart);
+        ctx.editReply(usageChart);
     }
 }
