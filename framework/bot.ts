@@ -13,6 +13,7 @@ import {
     enablePermissionsPlugin,
     GatewayIntents,
 } from "discordeno";
+import { Database } from "denodb";
 import CommandManager from "framework/classes/CommandManager/CommandManager.ts";
 
 // MAKE THE BASIC BOT OBJECT
@@ -37,6 +38,7 @@ enablePermissionsPlugin(bot as BotWithCache);
 
 export interface BotClient extends BotWithCache<BotWithHelpersPlugin> {
     commands: CommandManager;
+    database: Database;
 }
 
 export const Bot = bot as BotClient;

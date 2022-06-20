@@ -1,11 +1,40 @@
 version: "3"
 
 services:
+
   redbeansoup:
-    image: denoland/deno:alpine
+    image: 'denoland/deno:alpine'
+    depends_on:
+      - db
     #restart: unless-stopped
     volumes:
     - "./:/app" # redbeansoup source code
     - "/deno-dir" # persist cached dependancies
     working_dir: /app
     command: deno run --import-map import_map.json --allow-all mod.ts
+
+  dbTest:
+    image: 'denoland/deno:alpine'
+    depends_on:
+      - db
+    #restart: unless-stopped
+    volumes:
+    - "./:/app" # redbeansoup source code
+    - "/deno-dir" # persist cached dependancies
+    working_dir: /app
+    command: deno run --import-map import_map.json --allow-all database/dbTest.ts
+
+  db:
+    image: 'mysql:8-oracle'
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      MYSQL_ROOT_PASSWORD: redbeansoup-bot #replace with your own password
+      MYSQL_DATABASE: redbeansoup
+    volumes:
+      - my-db:/var/lib/mysql
+
+
+volumes:
+  my-db:
