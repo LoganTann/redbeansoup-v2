@@ -1,7 +1,4 @@
-import {
-    dateToUniversalString,
-    createDateWithMonthsRemoved,
-} from "../datesManager.ts";
+import { dateToUniversalString } from "../datesManager.ts";
 import { openAiUsageReponse, openAiCompletionResponse } from "./OpenAiTypes.ts";
 
 /**
@@ -43,12 +40,13 @@ export default class OpenAIClient {
         return response.json();
     }
 
-    async fetchUsage(): Promise<openAiUsageReponse> {
-        const endDate = dateToUniversalString(new Date());
-        const startDate = dateToUniversalString(
-            createDateWithMonthsRemoved(new Date(), 3)
-        );
-        const requestURl = `${OpenAIClient.ROOT}usage?start_date=${startDate}&end_date=${endDate}`;
+    async fetchUsage(
+        startDate: Date,
+        endDate: Date
+    ): Promise<openAiUsageReponse> {
+        const processedStartDate = dateToUniversalString(startDate);
+        const processedEndDate = dateToUniversalString(endDate);
+        const requestURl = `${OpenAIClient.ROOT}usage?start_date=${processedStartDate}&end_date=${processedEndDate}`;
         const response = await fetch(requestURl, {
             headers: { Authorization: `Bearer ${this.privKey}` },
             method: "GET",

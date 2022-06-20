@@ -5,6 +5,7 @@ import IContext from "framework/classes/Context/IContext.ts";
 import env from "config";
 import OpenAIClient from "../../utils/OpenAI/OpenAI.ts";
 import { generateUsageChart } from "../../utils/OpenAI/OpenAiUtils.ts";
+import { createDateWithMonthsRemoved } from "../../utils/datesManager.ts";
 
 @Command
 class Ai implements ICommand {
@@ -16,8 +17,12 @@ class Ai implements ICommand {
     async run(ctx: IContext) {
         ctx.replyText("Loading usage...");
         const client = new OpenAIClient(env.OPENAI_TOKEN);
-        const usage = await client.fetchUsage();
-        const usageChart = generateUsageChart(usage);
+
+        const startDate = createDateWithMonthsRemoved(new Date(), 1);
+        const endDate = new Date();
+
+        const usage = await client.fetchUsage(startDate, endDate);
+        const usageChart = generateUsageChart(startDate, endDate, usage);
         ctx.editReply(usageChart);
     }
 }
