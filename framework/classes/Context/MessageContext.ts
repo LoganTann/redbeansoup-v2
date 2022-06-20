@@ -1,4 +1,11 @@
-import { Embed, Message, DiscordMemberWithUser } from "discordeno";
+import {
+    Embed,
+    Message,
+    DiscordMemberWithUser,
+    deleteMessage,
+    avatarURL,
+    getUser,
+} from "discordeno";
 import { BotClient } from "framework/bot.ts";
 import { getMember } from "framework/utils/getDiscordMember.ts";
 import ICommand from "framework/types/ICommand.ts";
@@ -74,7 +81,7 @@ export default class MessageContext implements IContext {
     }
 
     private sendMessage(
-        content?: string,
+        content: string = "",
         embeds?: Embed[]
     ): Promise<Message | undefined> {
         return this.bot.helpers.sendMessage(this.message.channelId, {
@@ -102,6 +109,31 @@ export default class MessageContext implements IContext {
                 content,
                 embeds,
             }
+        );
+    }
+
+    async getSenderAvatarUrl(): Promise<string> {
+        const member: DiscordMemberWithUser = await getMember(
+            this.bot,
+            this.message.guildId ?? 0n,
+            this.message.authorId
+        );
+        if (member.user.avatar) {
+            return `https://cdn.discordapp.com/avatars/${member.user.id}/${member.user.avatar}.webp?size=100`;
+        }
+        return avatarURL(
+            this.bot,
+            this.message.authorId,
+            member.user.discriminator
+        );
+    }
+
+    deleteSourceMessage(reason: string): Promise<void> {
+        return deleteMessage(
+            this.bot,
+            this.message.channelId,
+            this.message.id,
+            reason
         );
     }
 }

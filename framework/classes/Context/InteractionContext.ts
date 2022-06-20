@@ -52,7 +52,7 @@ export default class InteractionContext implements IContext {
     }
 
     private sendInteractionResponse(
-        content?: string,
+        content: string = "",
         embeds?: Array<Embed>,
         flags?: number
     ): Promise<Message | undefined> {
@@ -79,5 +79,12 @@ export default class InteractionContext implements IContext {
             content,
             embeds,
         });
+    }
+
+    getSenderAvatarUrl(): Promise<string> {
+        throw new Error("YAGNI - Method not implemented.");
+    }
+    deleteSourceMessage(reason: string): Promise<void> {
+        throw new Error("YAGNI - Method not implemented.");
     }
 }

@@ -13,6 +13,10 @@ export default interface IContext {
     editReply(text: string, embeds?: Embed[]): Promise<Message | undefined>;
 
     // utils
+    getSenderAvatarUrl(): Promise<string>;
     getSenderNickname(): Promise<string>;
     getMember(userId: string | bigint): Promise<DiscordMemberWithUser>;
+
+    // actions
+    deleteSourceMessage(reason: string): Promise<void>;
 }
