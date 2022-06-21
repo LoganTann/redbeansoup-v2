@@ -4,7 +4,8 @@ import {
     DiscordMemberWithUser,
     deleteMessage,
     avatarURL,
-    getUser,
+    getMessages,
+    deleteMessages,
 } from "discordeno";
 import { BotClient } from "framework/bot.ts";
 import { getMember } from "framework/utils/getDiscordMember.ts";
@@ -135,5 +136,13 @@ export default class MessageContext implements IContext {
             this.message.id,
             reason
         );
+    }
+
+    getLast100Messages(): Promise<Message[]> {
+        return getMessages(this.bot, this.message.channelId, { limit: 100 });
+    }
+
+    deleteMessages(ids: bigint[], reason: string): Promise<void> {
+        return deleteMessages(this.bot, this.message.channelId, ids, reason);
     }
 }

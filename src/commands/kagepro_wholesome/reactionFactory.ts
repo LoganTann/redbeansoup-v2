@@ -21,7 +21,7 @@ export default function reactionFactory(wholesomeInfo: IWholesomeInfo) {
     return class implements ICommand {
         name = wholesomeInfo.name;
         description = wholesomeInfo.description;
-        group = "wholesome";
+        group = "kagepro";
         options: ApplicationCommandOption[] = wholesomeOptions;
 
         private async getTitle(ctx: IContext) {

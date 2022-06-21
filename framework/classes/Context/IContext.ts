@@ -16,7 +16,9 @@ export default interface IContext {
     getSenderAvatarUrl(): Promise<string>;
     getSenderNickname(): Promise<string>;
     getMember(userId: string | bigint): Promise<DiscordMemberWithUser>;
+    getLast100Messages(): Promise<Message[]>;
 
     // actions
     deleteSourceMessage(reason: string): Promise<void>;
+    deleteMessages(ids: BigInt[], reason: string): Promise<void>;
 }
