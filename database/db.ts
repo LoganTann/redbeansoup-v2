@@ -1,20 +1,28 @@
-import { Database, MySQLConnector } from "denodb";
+import { Client } from "mysql";
 import env from "config";
 
-import Guild from "./classes/guildModel.ts";
-import Lore from "./classes/loreModel.ts";
+import guildModel from "./classes/guildModel.ts";
+import loreModel from "./classes/loreModel.ts";
 
-const connector = new MySQLConnector({
-    database: env.MYSQL_DATABASE,
-    host: "localhost",
-    username: "root",
-    password: env.MYSQL_ROOT_PASSWORD,
-    port: 5432,
+const client = await new Client().connect({
+    hostname: env.MYSQL_HOST,
+    username: env.MYSQL_USER,
+    password: env.MYSQL_PASSWORD,
+    db: env.MYSQL_DATABASE,
+    poolSize: 3,
 });
 
-const db = new Database(connector);
+async function loadTables() {
+    const requests = [guildModel, loreModel].map((model) =>
+        client.query(model.createTable)
+    );
+    await Promise.all(requests);
+}
+try {
+    await loadTables();
+} catch (e) {
+    console.error(e);
+    Deno.exit(1);
+}
 
-db.link([Guild, Lore]);
-db.sync();
-
-export default db;
+export default client;

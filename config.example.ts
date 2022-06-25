@@ -14,8 +14,11 @@ export default {
     OPENAI_TOKEN: "",
 
     // default password defined in docker-compose. Make sure you change it.
-    MYSQL_ROOT_PASSWORD: "redbeansoup-bot",
+    MYSQL_USER: "root",
+    MYSQL_PASSWORD: "redbeansoup-bot",
     MYSQL_DATABASE: "redbeansoup",
+    MYSQL_PORT: 3306,
+    MYSQL_HOST: "mysql",
 
     // Kagescan API
     WHOLESOME_ENDPOINT:

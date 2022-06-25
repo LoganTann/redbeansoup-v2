@@ -1,20 +1,18 @@
-import { Database, Model } from "denodb";
-import Lore from "./loreModel.ts";
-
+import { Client } from "mysql";
 export default class LoreRepository {
-    constructor(private db: Database) {}
+    constructor(private client: Client) {}
 
-    async getLore(guildId: string, key: string): Promise<string | undefined> {
-        const loreValue = await Lore.select("value")
-            .where({ key: key, ownerId: guildId })
-            .first();
-        return loreValue.value?.toString();
+    public async createLore(name: string, title: string, description: string) {
+        return await this.client.execute(
+            `INSERT INTO lores(permissions, name, title, description) VALUES(?, ?, ?, ?)`,
+            ["global", name, title, description]
+        );
     }
-    async createLore(
-        guildId: string,
-        key: string,
-        value: string
-    ): Promise<Model> {
-        return Lore.create({ key, value });
+
+    public async readLore(name: string) {
+        return await this.client.query(
+            `SELECT name, title, description FROM lores WHERE name=?`,
+            [name]
+        );
     }
 }

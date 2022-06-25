@@ -1,18 +1,15 @@
-import GuildRepository from "./classes/guildRepository.ts";
+import client from "./db.ts";
+
 import LoreRepository from "./classes/loreRepository.ts";
-import db from "./db.ts";
-import log from "framework/logger.ts";
 
-const guildId = "123456789012345678";
-const guildRepo = new GuildRepository(db);
-const loreRepo = new LoreRepository(db);
+const lore = new LoreRepository(client);
 
-await guildRepo.getGuildOrRegisterIt(BigInt(guildId));
-await loreRepo.createLore(
-    guildId,
-    "redbeansoup",
-    "L'emoticone Rrdbeansoup proviens d'un extrait de l'anthology comic *For the Sake of our future*, montrant le personnage Momo Kisaragi buvant un soda à la soupe aux haricots rouges."
+console.log(
+    await lore.createLore(
+        "poisson",
+        "ENE Poisson",
+        "C'est ene avec une bouche de magicarpe. Cursed."
+    )
 );
-const result = await loreRepo.getLore(guildId, "poisson");
 
-log.info("Result for poisson:", result);
+console.log(await lore.readLore("poisson"));

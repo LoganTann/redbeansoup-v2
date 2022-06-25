@@ -1,17 +1,21 @@
-import { DataTypes, Model, Relationships } from "denodb";
+import IModel from "../IModel.ts";
 
-export default class Lore extends Model {
-    static table = "lores";
+const loreModel: IModel = {
+    createTable: `
+        CREATE TABLE IF NOT EXISTS lores (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            permissions MEDIUMTEXT  NOT NULL,
+            name TINYTEXT NOT NULL,
+            
+            title TINYTEXT NOT NULL,
+            description MEDIUMTEXT NOT NULL,
+            thumb MEDIUMTEXT,
+            image MEDIUMTEXT,
+            color VARCHAR(10),
 
-    static fields = {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-        },
-        key: DataTypes.STRING,
-        value: DataTypes.STRING,
-    };
-}
+            created_at timestamp not null default current_timestamp,
+            updated_at timestamp not null default current_timestamp
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;`,
+};
 
-import Guild from "./guildModel.ts";
-Relationships.belongsTo(Lore, Guild);
+export default loreModel;
