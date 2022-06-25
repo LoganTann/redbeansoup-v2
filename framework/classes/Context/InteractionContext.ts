@@ -5,6 +5,8 @@ import {
     InteractionResponseTypes,
     Message,
     editInteractionResponse,
+    getMessages,
+    deleteMessages,
 } from "discordeno";
 import { BotClient } from "framework/bot.ts";
 import log from "framework/logger.ts";
@@ -86,5 +88,18 @@ export default class InteractionContext implements IContext {
     }
     deleteSourceMessage(reason: string): Promise<void> {
         throw new Error("YAGNI - Method not implemented.");
+    }
+    getLast100Messages(): Promise<Message[]> {
+        return getMessages(this.bot, this.interaction.channelId ?? 0n, {
+            limit: 100,
+        });
+    }
+    deleteMessages(ids: bigint[], reason: string): Promise<void> {
+        return deleteMessages(
+            this.bot,
+            this.interaction.channelId ?? 0n,
+            ids,
+            reason
+        );
     }
 }

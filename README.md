@@ -50,11 +50,11 @@ Currently, the developer name of this framework is just `framework`, although it
 
 redbeansoup-framework is fully written in Typescript. It's inspired by oasis and discordjs-commando frameworks.
 
-- ✔ **Minimal by design**, cross-platform (developed in windows & docker), maintainable and extendable.
-- ✔ **Class-based commands that prefers composition** over inheritance, using interfaces and decorators
-- ✔ Use of a **context object** to make the command's code compatible with bot slash and message-based commands, including arguments parsing.
-- ✔ Custom-made file autoloader and logger. 
-- ❌ Webhook manager class, Database support
+- ✔ Minimal by design : **Class-based commands that prefers composition** over inheritance, using interfaces and decorators
+- ✔ **Cross-platform** runs fine in deno and docker (should work in windows and linux).
+- ✔ Use of a **context object** to give a shortcut to common actions and use the same codebase for both slash and messages interactions
+- ✔ Custom-made file autoloader and logger, Webhook manager class
+- 🏃‍ Database support
 - ❌ Custom permissions, group commands and auto-generate help
 - ❌ Built-in Back-end API server (for a dashboard)
 
@@ -63,9 +63,9 @@ redbeansoup-framework is fully written in Typescript. It's inspired by oasis and
 The bot is multipurpose and commands are sorted in group of usage / server. Its source code is located in the `src/` folder
 
 OpenAI Beta : 
-- 🏃‍♂️ `$momo` : Momo answers all your requests, thanks to the magic of OpenAI. She's especially good at text completion and summarization.
+- ✔ `$momo` : Momo answers all your requests, thanks to the magic of OpenAI. She's especially good at text completion and summarization.
 - ❌ `$ayano` : Ayano is probably better than Momo, because she acts like a real person, remembering the context of her last 10 interactions.
-- 🏃‍♂️ `$ai status` : check your OpenAI token's usage and remaining credit.
+- ✔ `$ai (status)` : check your OpenAI token's usage and remaining credit.
 
 IUT de Paris : 
 - ❌ `$edt` : "Descalendrier pour Discord" - Private command. request the scheudule of the IT dept.
@@ -73,7 +73,7 @@ IUT de Paris :
 
 Kagerou Project FR:
 - ✔ wholesome commands : `$blush`, `$cry`, `$handhold`, `$highfive`, `$pat`, `$hug`, `$punch`, `$shut`, `$slap`
-- ❌ stickers feature.
+- ✔ stickers feature.
 
 ## How to run
 
