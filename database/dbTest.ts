@@ -1,6 +1,6 @@
 import client from "./db.ts";
 
-import LoreRepository from "./classes/loreRepository.ts";
+import LoreRepository from "./classes/LoreRepository.ts";
 
 const lore = new LoreRepository(client);
 

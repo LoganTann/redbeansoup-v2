@@ -2,7 +2,9 @@
     "imports": {
         "discordeno": "./deps/discordeno.ts",
         "mysql": "./deps/mysql.ts",
+        "aqua": "./deps/aqua.ts",
         "config": "./config.ts",
-        "framework/": "./framework/"
+        "framework/": "./framework/",
+        "db/": "./database/"
     }
 }
