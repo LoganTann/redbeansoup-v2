@@ -1,21 +1,20 @@
-import IModel from "../IModel.ts";
+import { DataTypes, Model } from "denodb";
 
-const loreModel: IModel = {
-    createTable: `
-        CREATE TABLE IF NOT EXISTS lores (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            permissions MEDIUMTEXT  NOT NULL,
-            name TINYTEXT NOT NULL,
-            
-            title TINYTEXT NOT NULL,
-            description MEDIUMTEXT NOT NULL,
-            thumb MEDIUMTEXT,
-            image MEDIUMTEXT,
-            color VARCHAR(10),
+export default class Lore extends Model {
+    static table = "lores";
 
-            created_at timestamp not null default current_timestamp,
-            updated_at timestamp not null default current_timestamp
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;`,
-};
+    static fields = {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        name: DataTypes.STRING,
 
-export default loreModel;
+        title: DataTypes.STRING,
+        description: DataTypes.STRING,
+        thumb: DataTypes.STRING,
+        image: DataTypes.STRING,
+        color: DataTypes.STRING,
+    };
+}

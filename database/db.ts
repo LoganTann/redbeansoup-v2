@@ -1,28 +1,28 @@
-import { Client } from "mysql";
+import { Database, PostgresConnector } from "denodb";
 import env from "config";
 
-import guildModel from "./classes/guildModel.ts";
-import loreModel from "./classes/loreModel.ts";
+import Guild from "./classes/guildModel.ts";
+import Lore from "./classes/loreModel.ts";
 
-const client = await new Client().connect({
-    hostname: env.MYSQL_HOST,
-    username: env.MYSQL_USER,
-    password: env.MYSQL_PASSWORD,
-    db: env.MYSQL_DATABASE,
-    poolSize: 3,
+console.log({
+    database: env.DB_DATABASE,
+    host: env.DB_HOST,
+    username: env.DB_USER,
+    password: env.DB_PASSWORD,
+    port: env.DB_PORT,
 });
 
-async function loadTables() {
-    const requests = [guildModel, loreModel].map((model) =>
-        client.query(model.createTable)
-    );
-    await Promise.all(requests);
-}
-try {
-    await loadTables();
-} catch (e) {
-    console.error(e);
-    Deno.exit(1);
-}
+const connector = new PostgresConnector({
+    database: env.DB_DATABASE,
+    host: env.DB_HOST,
+    username: env.DB_USER,
+    password: env.DB_PASSWORD,
+    port: env.DB_PORT,
+});
 
-export default client;
+const db = new Database(connector);
+
+db.link([Guild, Lore]);
+db.sync();
+
+export default db;

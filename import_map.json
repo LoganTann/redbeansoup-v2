@@ -1,7 +1,7 @@
 {
     "imports": {
         "discordeno": "./deps/discordeno.ts",
-        "mysql": "./deps/mysql.ts",
+        "denodb": "./deps/denodb.ts",
         "aqua": "./deps/aqua.ts",
         "config": "./config.ts",
         "framework/": "./framework/",

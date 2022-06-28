@@ -1,11 +1,17 @@
-import IModel from "../IModel.ts";
+import { DataTypes, Model } from "denodb";
 
-const guildModel: IModel = {
-    createTable: `
-        CREATE TABLE IF NOT EXISTS guilds (
-            id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            guildId varchar(20) NOT NULL,
-            created_at timestamp not null default current_timestamp
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;`,
-};
-export default guildModel;
+export default class Guild extends Model {
+    static table = "guilds";
+
+    static fields = {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoincrement: true,
+        },
+        guildId: {
+            type: DataTypes.STRING,
+            unique: true,
+        },
+    };
+}

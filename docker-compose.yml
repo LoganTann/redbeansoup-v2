@@ -17,25 +17,37 @@ services:
     networks:
       - redbeansoup-network-dev
 
-  db:
-    image: mysql:8-oracle
-    command: --log-error-verbosity=3
-    hostname: mysql
-    restart: always
-    ports:
-      - 3306:3306
-    environment:
-      MYSQL_DATABASE: redbeansoup
-      MYSQL_HOST: mysql
-      MYSQL_ROOT_PASSWORD: 'redbeansoup-bot' #replace with your own password
+
+
+  dbTest:
+    image: denoland/deno:alpine
+    depends_on:
+      - db
+    #restart: unless-stopped
     volumes:
-      - my-db:/var/lib/mysql
+    - ./:/app # redbeansoup source code
+    - /deno-dir # persist cached dependancies
+    working_dir: /app
+    command: deno run --import-map import_map.json --allow-all ./database/dbTest.ts
     networks:
       - redbeansoup-network-dev
+
+  db:
+    image: postgres
+    hostname: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - redbeansoup-network-dev
+    environment:
+      POSTGRES_DB: redbeansoup
+      POSTGRES_PASSWORD: 'redbeansoup-bot' #replace with your own password
 
 
 networks:
   redbeansoup-network-dev:
 
 volumes:
-  my-db:
+  data:

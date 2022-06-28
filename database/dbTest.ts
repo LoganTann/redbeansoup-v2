@@ -1,15 +1,14 @@
-import client from "./db.ts";
+import GuildRepository from "./classes/guildRepository.ts";
+import LoreRepository from "./classes/loreRepository.ts";
+import db from "./db.ts";
+import log from "framework/logger.ts";
 
-import LoreRepository from "./classes/LoreRepository.ts";
+const loreRepo = new LoreRepository(db);
 
-const lore = new LoreRepository(client);
-
-console.log(
-    await lore.createLore(
-        "poisson",
-        "ENE Poisson",
-        "C'est ene avec une bouche de magicarpe. Cursed."
-    )
+await loreRepo.createLore(
+    "poisson",
+    "Ene avec une bouche de magicarpe. Cursed."
 );
+const result = await loreRepo.getLore("poisson");
 
-console.log(await lore.readLore("poisson"));
+log.info("Result for poisson:", result);
