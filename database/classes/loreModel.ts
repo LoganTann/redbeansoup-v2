@@ -17,4 +17,5 @@ export default class Lore extends Model {
         image: DataTypes.STRING,
         color: DataTypes.STRING,
     };
+    static timestamps = true;
 }

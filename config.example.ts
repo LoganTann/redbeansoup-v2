@@ -13,13 +13,6 @@ export default {
     // Get your OpenAI token in your dashboard - https://openai.com/api/
     OPENAI_TOKEN: "",
 
-    // default password defined in docker-compose. Make sure you change it.
-    MYSQL_USER: "root",
-    MYSQL_PASSWORD: "redbeansoup-bot",
-    MYSQL_DATABASE: "redbeansoup",
-    MYSQL_PORT: 3306,
-    MYSQL_HOST: "mysql",
-
     // Kagescan API
     WHOLESOME_ENDPOINT:
         "https://kagescan.legtux.org/api/pic.php?noRedirect=true&i=",

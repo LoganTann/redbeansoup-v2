@@ -2,3 +2,4 @@
 /config.ts
 /fileloader.ts
 framework/todo.md
+database/db.sqlite
