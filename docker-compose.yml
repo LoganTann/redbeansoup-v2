@@ -3,8 +3,6 @@ version: "3"
 services:
   redbeansoup:
     image: denoland/deno:alpine
-    depends_on:
-      - db
     #restart: unless-stopped
     ports:
       - 3000:3000

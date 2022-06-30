@@ -6,14 +6,14 @@ This is a rewriting of [redbeansoup-bot](https://github.com/LoganTann/redbeansou
 
 See the dedicated file [doc: Run the project](documentation/run.md)
 
-TL;DR : `deno run --allow-all mod.ts` or `docker-compose up` after configuration.
+TL;DR : `deno run --import-map import_map.json --allow-all mod.ts` or `docker-compose up` after configuration.
 
 ## Content
 
 * framework/ : See [doc: The framework](documentation/framework.md). Custom-made framework that runs the bot, built on top of discordeno
 * src/ : See [doc: The bot](documentation/framework.md). Stores all bot commands and events
-* web-back/ : Contains the back-end API
-* web-front/ : Contains the front-end dashboard
+* web-back/ : See [doc: The dashboard](documentation/dashboard.md). Contains the back-end API
+* web-front/ : See [doc: The dashboard](documentation/dashboard.md). Contains the front-end dashboard
 * database/ : Creates the MySQL Client, and Models + Repositories of all required tables.
 * documentation/ : markdown files
 

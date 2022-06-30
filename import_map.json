@@ -5,6 +5,6 @@
         "aqua": "./deps/aqua.ts",
         "config": "./config.ts",
         "framework/": "./framework/",
-        "db/": "./database/"
+        "db": "./database/mod.ts"
     }
 }

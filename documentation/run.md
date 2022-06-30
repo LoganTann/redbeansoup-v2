@@ -21,49 +21,16 @@ Since it contains many secret data (like your bot's token), make sure to keep it
 Make sure you started your local mysql instance.
 
 ```sh
-$ deno run --allow-all mod.ts
+$ deno run --import-map import_map.json --allow-all mod.ts
 ```
+
+## Starting only the dashboard
+
+If you want to start the backend but not the discord bot, add the flag `--start-dashboard-only` at the end of the command.
 
 ## Run using docker-compose
 
-Due to a bad configuration of MySQL, you have to manually handle some steps before running this project.
-
-If you have a suggestion to make it working easier, please let me know !
-
-### MySQL host fix
-
-Download and start MySql :
-
-```sh
-# db => starts MySQL only
-$ docker-compose up db
-```
-
-Then log in to the container to fix the host problem :
-
-```sh
-# Host machine
-$ docker exec -it <MySqlContainerHash> sh 
-```
-
-Open the MySql console : 
-
-```
-# Virtual Machine
-$ mysql -p
-```
-
-Finally, configure root to accept "mysql" as host. (as long as the host in the config + env is "mysql")
-
-```sql
-CREATE USER 'root'@'mysql' IDENTIFIED WITH mysql_native_password BY '<yourRootPassword>';
-```
-
-Now we can move on...
-
-## Run the project
-
-Very simple.
+redbeansoup-bot uses sqlite as database. 
 
 ```
 # starts all containers.

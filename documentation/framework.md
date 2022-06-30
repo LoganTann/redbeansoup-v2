@@ -16,4 +16,4 @@ redbeansoup-framework is fully written in Typescript. It's inspired by oasis and
 - ✔ Custom-made file autoloader and logger, Webhook manager class
 - ✔ Database support
 - ❌ Custom permissions, group commands and auto-generate help
-- 🏃 Built-in Back-end API server (for a dashboard)
+- ✔ Built-in Back-end API server (for a dashboard)

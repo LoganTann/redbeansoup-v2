@@ -59,7 +59,7 @@ function checkCwdIsMainModule() {
 function isFileExists(file: string) {
     try {
         return Deno.statSync(file).isFile;
-    } catch (error) {
+    } catch (_error) {
         return false;
     }
 }

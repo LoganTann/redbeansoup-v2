@@ -1,1 +1,1 @@
-import "./lore/lore.ts";
+import "./lore/[name].ts";
