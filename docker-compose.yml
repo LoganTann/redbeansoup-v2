@@ -4,8 +4,10 @@ services:
   redbeansoup:
     image: denoland/deno:alpine
     #restart: unless-stopped
+    ports:
+      - 3000:3000
     volumes:
-    - "./:/app" # redbeansoup source code
-    - "/deno-dir" # persist cached dependancies
+    - ./:/app # redbeansoup source code
+    - /deno-dir # persist cached dependancies in a proper volume
     working_dir: /app
     command: deno run --import-map import_map.json --allow-all mod.ts

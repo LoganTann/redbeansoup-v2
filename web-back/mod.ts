@@ -1,0 +1,1 @@
+import "./lore/[name].ts";

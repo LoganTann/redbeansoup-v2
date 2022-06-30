@@ -1,7 +1,10 @@
 {
     "imports": {
         "discordeno": "./deps/discordeno.ts",
+        "denodb": "./deps/denodb.ts",
+        "aqua": "./deps/aqua.ts",
         "config": "./config.ts",
-        "framework/": "./framework/"
+        "framework/": "./framework/",
+        "db": "./database/mod.ts"
     }
 }
