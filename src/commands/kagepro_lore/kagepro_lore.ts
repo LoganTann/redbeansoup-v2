@@ -26,9 +26,11 @@ export default class Lore implements ICommand {
     async getOutputString(name: string): Promise<string> {
         if (name === "list") {
             const list = await loreRepo.list();
-            return list
-                .map((elem) => `\`${elem.name}\` : ${elem.title}`)
+            let result = "**Liste des entrées de lore** :\n";
+            result += list
+                .map((elem) => `- \`/lore ${elem.name}\` : ${elem.title}`)
                 .join("\n");
+            return result;
         }
         const result = await loreRepo.getLore(name);
         if (!result) {
