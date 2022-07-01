@@ -2,6 +2,8 @@
   
 This is a rewriting of [redbeansoup-bot](https://github.com/LoganTann/redbeansoup-bot) with much more modules.
 
+**Information** as I am the only one working in this project, there is no branch strategy. Dev code will be pushed as-is to the main branch. It is not recommanded to touch the code yet.
+
 ## Run the project in your hardware
 
 See the dedicated file [doc: Run the project](documentation/run.md)

@@ -1,12 +1,5 @@
-import {
-    Forecast,
-    ForecastResponse,
-    iconToEmoji,
-    RainResponse,
-    unixTimestamp,
-} from "./types.ts";
-import EmbedField from "../../types/embedField.ts";
-import fetchWithType from "../../../framework/utils/fetchWithType.ts";
+import { ForecastResponse, RainResponse } from "./types.ts";
+import fetchWithType from "framework/utils/fetchWithType.ts";
 
 /**
  * Partial Typescript port of hacf-fr's meteofrance-api python client.
@@ -18,8 +11,12 @@ import fetchWithType from "../../../framework/utils/fetchWithType.ts";
  * @author LoganTann
  */
 export default class MeteoFranceClient {
+    /**
+     * This token is graciously shared by Home Assistant Communauté Francophone.
+     * Please do not abuse it.
+     */
     static meteoFranceApiToken =
-        "__Wj7dVSTjV9YGu1guveLyDq0g7S7TfTjaHBTPTpO0kj8__"; // is that a leaked token ? owo
+        "__Wj7dVSTjV9YGu1guveLyDq0g7S7TfTjaHBTPTpO0kj8__";
     static meteoFranceApiEndpoint = "https://webservice.meteofrance.com";
     static defaultCoord = {
         // iut.paris

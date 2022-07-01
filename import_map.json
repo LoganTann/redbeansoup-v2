@@ -1,10 +1,10 @@
 {
     "imports": {
-        "discordeno": "./deps/discordeno.ts",
-        "denodb": "./deps/denodb.ts",
-        "aqua": "./deps/aqua.ts",
+        "denodb": "https://raw.githubusercontent.com/Aiko-Suzuki/denodb/master/mod.ts",
+        "aqua": "https://deno.land/x/aqua@v1.3.4/mod.ts",
+        "discordeno": "./deps.ts",
         "config": "./config.ts",
-        "framework/": "./framework/",
-        "db": "./database/mod.ts"
+        "db": "./database/mod.ts",
+        "framework/": "./framework/"
     }
 }

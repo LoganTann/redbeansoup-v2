@@ -29,6 +29,10 @@ export function generateUsageChart(
     if (!usage.data || usage.data.length <= 0) {
         return "Error : no data : " + JSON.stringify(usage);
     }
+    if (!usage.amount_grant_used_usd || !usage.amount_granted_usd) {
+        // as of 2022-07-01, 100% sure user will see this error.
+        return "Error : api might have changed, unable to fetch amount";
+    }
     const bar = createProgressBar(
         48,
         usage.amount_grant_used_usd,
