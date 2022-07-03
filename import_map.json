@@ -2,6 +2,7 @@
     "imports": {
         "denodb": "https://raw.githubusercontent.com/Aiko-Suzuki/denodb/master/mod.ts",
         "aqua": "https://deno.land/x/aqua@v1.3.4/mod.ts",
+        "nanoid": "https://deno.land/x/nanoid@v3.0.0/async.ts",
         "discordeno": "./deps.ts",
         "config": "./config.ts",
         "db": "./database/mod.ts",
