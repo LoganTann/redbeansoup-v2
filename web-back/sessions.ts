@@ -1,28 +1,32 @@
 import { MiddlewareType, Request } from "aqua";
 import { nanoid } from "nanoid";
 import app from "./app.ts";
+import { log } from "framework/logger.ts";
 
+// Below registers input and output middlewares related to session.
 app.register(async (req) => {
     if (Session.isSessionInvalid(req)) {
-        console.log("Invalid session", req.cookies["session"]);
-        console.log("a", req.headers.cookie);
-        console.log("b", req.cookies);
         req.cookies["session"] = await nanoid(10);
     }
     return req;
 }, MiddlewareType.Incoming);
 
 app.register((req, res) => {
-    if (!res.cookies) {
-        res.cookies = {};
+    if (!res.headers) {
+        res.headers = {};
     }
-    if (!res.cookies["session"]) {
-        res.cookies["session"] = req.cookies["session"];
+    // Assumes below session is valid.
+    if (req.cookies["session"]) {
+        res.headers["Set-Cookie"] = `session=${req.cookies["session"]}; Path=/`;
+    } else {
+        log.error("No session cookie defined on request", req);
     }
     return res;
 }, MiddlewareType.Outgoing);
+
 /**
- * Memory-based session system.
+ * Class that uses a very basic session system.
+ * Storage is persisted in Heap.
  */
 export default class Session {
     public id: string;
@@ -39,7 +43,11 @@ export default class Session {
 
     public static isSessionInvalid(req: Request): boolean {
         const sessionId: string = req.cookies["session"] || "";
-        return !sessionId.match(/^[A-Za-z0-9_-]{10}$/);
+        if (sessionId.match(/^[A-Za-z0-9_-]{10}$/)) {
+            // vvv if the session array does not exist, the sessions is invalid
+            return !Session.storage[sessionId];
+        }
+        return true;
     }
 
     set(key: string, value: string): void {

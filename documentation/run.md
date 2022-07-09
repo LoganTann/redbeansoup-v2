@@ -2,8 +2,8 @@
 # Run the project
 
 Two ways to download :
-1. Using deno and MySQL from your local configuration.
-2. Use docker-compose to run the project, deno and mysql inside containers.
+1. Using deno from your local configuration.
+2. Use docker-compose to run the project, deno inside containers.
 
 Deno can be downloaded here : https://deno.land/manual/getting_started/installation#download-and-install
 
