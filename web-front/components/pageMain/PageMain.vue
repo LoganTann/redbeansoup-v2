@@ -1,7 +1,6 @@
 <template>
     <section>
-        <div v-if="userInfo">Connected.</div>
-        <div v-else>Not connected</div>
+        <router-link to="/lore">Lore</router-link>
     </section>
 </template>
 

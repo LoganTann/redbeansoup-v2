@@ -2,7 +2,14 @@ import { Factory } from "https://deno.land/x/vno@1.5.1/dist/mod.ts";
 import { checkCwdIsMainModule } from "framework/fileloader.ts";
 import { log } from "framework/logger.ts";
 
+const frontendFolder = "./web-front/";
+
+/**
+ * VueJs Project Bundler.
+ */
 export default async function buildVueApp() {
+    FilesystemWatcher.registerWatcher();
+    FilesystemWatcher.startLock();
     try {
         initDir();
         const vno = Factory.create();
@@ -12,13 +19,18 @@ export default async function buildVueApp() {
         log.error("[web-front/build] Failed building the vuejs front-end", e);
     } finally {
         await cleanup();
+        log.info(
+            "[web-front/build] Vue files built. Don't forget to restart your browser tab."
+        );
+        FilesystemWatcher.releaseLock();
     }
 }
 
 function initDir() {
     checkCwdIsMainModule();
-    Deno.chdir("./web-front/");
+    Deno.chdir(frontendFolder);
 }
+
 async function moveBuildToCorrectFolder() {
     const originalDir = "./vno-build/";
     const targetDir = "./public/";
@@ -39,6 +51,7 @@ async function moveBuildToCorrectFolder() {
     }
     await Promise.all(renameQueue.map(({ from, to }) => Deno.rename(from, to)));
 }
+
 async function cleanup() {
     await Promise.all([
         Deno.remove("vno-build", { recursive: true }),
@@ -77,13 +90,54 @@ async function patchBuildJs(originalDir: string, targetDir: string) {
         .replace(regexIn, replaceOut)
         // We also fix dependancies
         .replace(
-            'https://cdn.jsdelivr.net/npm/vue@3.0.5/dist/vue.esm-browser.js";',
-            [
-                'https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.js";',
-                'import {VueRouterBuilder} from "./vue-router.js";',
-                "const VueRouter = VueRouterBuilder({}, Vue);",
-            ].join("\n")
+            'import * as Vue from "https://cdn.jsdelivr.net/npm/vue@3.0.5/dist/vue.esm-browser.js";',
+            ""
         );
 
     await Deno.writeTextFile(targetDir.concat("build.js"), patchedContent);
+}
+
+class FilesystemWatcher {
+    static enabled = false;
+    static lock = false;
+
+    static modifiedDuringLockHold = false;
+    static buildCooldown: null | number = null;
+
+    static startLock() {
+        FilesystemWatcher.lock = true;
+    }
+    static releaseLock() {
+        FilesystemWatcher.lock = false;
+    }
+
+    /**
+     * Should run in parallel (without async)
+     */
+    static async registerWatcher() {
+        if (FilesystemWatcher.enabled) {
+            return;
+        }
+        FilesystemWatcher.enabled = true;
+        const watcher = Deno.watchFs(frontendFolder, { recursive: true });
+        for await (const event of watcher) {
+            if (event.kind !== "modify") {
+                continue;
+            }
+            const shouldReload = event.paths.some((path) =>
+                path.toLocaleLowerCase().includes(".vue")
+            );
+            if (!shouldReload) {
+                continue;
+            }
+            if (FilesystemWatcher.buildCooldown) {
+                clearTimeout(FilesystemWatcher.buildCooldown);
+            }
+            FilesystemWatcher.buildCooldown = setTimeout(() => {
+                if (!FilesystemWatcher.lock) {
+                    buildVueApp();
+                }
+            }, 400);
+        }
+    }
 }
