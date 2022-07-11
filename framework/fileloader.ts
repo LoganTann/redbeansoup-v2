@@ -39,7 +39,7 @@ function findFilesToLoad(loadList: Array<string>): Array<string> {
 /**
  * Throws an error if current working directory is not the main module.
  */
-function checkCwdIsMainModule() {
+export function checkCwdIsMainModule() {
     let cwd = Deno.cwd();
     const mainModule = Deno.mainModule
         .replace(/file\:\/\/\/|\/mod.ts/g, "")
