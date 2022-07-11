@@ -1,3 +1,4 @@
+log.info("[MOD.TS] Importing dependancies...");
 import { startBot } from "discordeno";
 import log from "framework/logger.ts";
 import { loadUserFiles } from "framework/fileloader.ts";

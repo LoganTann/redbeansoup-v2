@@ -3,11 +3,16 @@ import { checkCwdIsMainModule } from "framework/fileloader.ts";
 import { log } from "framework/logger.ts";
 
 export default async function buildVueApp() {
-    initDir();
-    const vno = Factory.create();
-    await vno.build();
-    await moveBuildToCorrectFolder();
-    await cleanup();
+    try {
+        initDir();
+        const vno = Factory.create();
+        await vno.build();
+        await moveBuildToCorrectFolder();
+    } catch (e) {
+        log.error("[web-front/build] Failed building the vuejs front-end", e);
+    } finally {
+        await cleanup();
+    }
 }
 
 function initDir() {
@@ -17,7 +22,7 @@ function initDir() {
 async function moveBuildToCorrectFolder() {
     const originalDir = "./vno-build/";
     const targetDir = "./public/";
-    const asyncOperations = [];
+    const renameQueue: Array<{ from: string; to: string }> = [];
     for await (const file of Deno.readDir(originalDir)) {
         if (!file.isFile) {
             log.warn(`[web-front/build] ${file.name} is not a file. Ignoring.`);
@@ -27,14 +32,12 @@ async function moveBuildToCorrectFolder() {
             await patchBuildJs(originalDir, targetDir);
             continue;
         }
-        asyncOperations.push(
-            Deno.rename(
-                originalDir.concat(file.name),
-                targetDir.concat(file.name)
-            )
-        );
+        renameQueue.push({
+            from: originalDir.concat(file.name),
+            to: targetDir.concat(file.name),
+        });
     }
-    await Promise.all(asyncOperations);
+    await Promise.all(renameQueue.map(({ from, to }) => Deno.rename(from, to)));
 }
 async function cleanup() {
     await Promise.all([
