@@ -1,0 +1,6 @@
+{
+    "title": "Redbeansoup",
+    "entry": "./",
+    "root": "App",
+    "vue": 3
+}
