@@ -23,14 +23,20 @@ export default class LoreRepository {
     async upsertLore(
         name: string,
         title: string,
-        description: string
+        description: string,
+        color: string,
+        thumb: string,
+        image: string
     ): Promise<Lore> {
         const loreEntry = await this.getLore(name);
         if (!loreEntry) {
-            return await Lore.create({ name, title, description });
+            return await Lore.create({ name, title, description, color, thumb, image });
         }
         loreEntry.title = title;
         loreEntry.description = description;
+        loreEntry.description = color;
+        loreEntry.description = thumb;
+        loreEntry.description = image;
         return await loreEntry.update();
     }
     async deleteLore(name: string): Promise<number> {

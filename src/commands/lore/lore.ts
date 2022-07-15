@@ -26,17 +26,31 @@ export default class Lore implements ICommand {
     async getOutputString(name: string): Promise<string> {
         if (name === "list") {
             const list = await loreRepo.list();
-            let result = "**Liste des entrées de lore** :\n";
-            result += list
-                .map((elem) => `- \`/lore ${elem.name}\` : ${elem.title}`)
-                .join("\n");
-            return result;
+            const result = "**Liste des entrées de lore** :\n";
+            return list.length !== 0 ?
+                result + list
+                    .map((elem) => `- \`/lore ${elem.name}\` : ${elem.title}`)
+                    .join("\n")
+                :
+                    "**Aucun lore existant**" // Maybe find a better text
+                ;
         }
         const result = await loreRepo.getLore(name);
         if (!result) {
-            return `No lore found for ${name}. Do \`/lore list\` to see all available lores.`;
+            return `No lore found for ${name}. Do \`/lore list\` to see all available lores.`; // Français or English?
         }
-        return `**${result.title}**\n>>> ${result.description}`;
+
+        return JSON.stringify( {
+            embeds: [
+                {
+                    title: result.title,
+                    description: result.description,
+                    color : result.color ? result.color : "#fff",
+                    image : result.image ? {url : result.image} : {},
+                    thumbnail : result.thumb ? {url : result.thumb} : {},
+                }
+            ]
+        })
     }
 
     async run(ctx: IContext) {
