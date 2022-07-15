@@ -9,7 +9,7 @@ app.get(
         const name = req.parameters.name;
         const results = await loreRepo.getLore(name);
         if (!results) {
-            return jsonResponse(404, { error: "No matches found" });
+            return jsonResponse(404, { error: "Not found", message : `Not found, no match for ${name} was found`, statusCode: "404", timestamp: new Date().toISOString()});
         }
         return jsonResponse(200, results);
     },
@@ -29,17 +29,23 @@ app.put(
         const name = req.parameters.name;
         const description = req.body.description as string;
         const title = req.body.title as string;
+        const color = req.body.color as string;
+        const image = req.body.image as string;
+        const thumb = req.body.thumb as string;
         if (!description || !title) {
-            return jsonResponse(404, {
-                error: "Missing description or title",
+            return jsonResponse(400, {
+                error: "Bad request",
+                message: "Malformed request, missing description or title",
+                statusCode: "400",
+                timestamp: new Date().toISOString()
             });
         }
 
-        const results = await loreRepo.upsertLore(name, title, description);
+        const results = await loreRepo.upsertLore(name, title, description, color, thumb, image);
         if (!results) {
-            return jsonResponse(404, { error: "Upsert failed." });
+            return jsonResponse(400, { error: "Bad request.", message: "Upsert failed, couldn't update or add the lore.", statusCode: 400, timestamp: new Date().toISOString()});
         }
-        return jsonResponse(200, results);
+        return jsonResponse(200, results); // 201 seems to be a better response code for a successful PUT but 200 is ok if lore already exists
     },
     {
         schema: {
@@ -58,10 +64,13 @@ app.delete(
         const name = req.parameters.name;
         const results = await loreRepo.deleteLore(name);
         if (results) {
-            return jsonResponse(200, { success: true });
+            return jsonResponse(200, { success: true }); // 204 without body (no content). Body is just a repeat of status code
         }
         return jsonResponse(404, {
-            error: "Delete failed. Maybe the entry you requested doesn't exist.",
+            error: "Not found",
+            message: "Delete failed. The entry you requested doesn't exist.",
+            statusCode: 404,
+            timestamp: new Date().toISOString()
         });
     },
     {
