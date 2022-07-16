@@ -1,9 +1,11 @@
 import ICommand from "framework/types/ICommand.ts";
 import Command from "framework/decorators/Command.ts";
 import IContext from "framework/classes/Context/IContext.ts";
+
 import {
     ApplicationCommandOption,
     ApplicationCommandOptionTypes,
+    Embed,
 } from "discordeno";
 import { loreRepo } from "db";
 
@@ -23,39 +25,47 @@ export default class Lore implements ICommand {
         },
     ];
 
-    async getOutputString(name: string): Promise<string> {
+    /**
+     * Method that return the output with the type of output (embedded or text) and the result
+     * @param {string} name The name of the entry you are looking for.
+     * @returns {{type: string, result: string | Embed}} The output with the type of output (embedded or text) and the result
+     */
+    async getOutput(name: string): Promise<{type: string, result: string | Embed}> {
         if (name === "list") {
             const list = await loreRepo.list();
-            const result = "**Liste des entrées de lore** :\n";
-            return list.length !== 0 ?
-                result + list
-                    .map((elem) => `- \`/lore ${elem.name}\` : ${elem.title}`)
-                    .join("\n")
-                :
-                    "**Aucun lore existant**" // Maybe find a better text
-                ;
+            const toReturn = {
+                type: "text",
+                result: "**Liste des entrées de lore** :\n"
+            }
+            list.length !== 0 ? toReturn.result += list
+                .map((elem) => `- \`/lore ${elem.name}\` : ${elem.title}`)
+                .join("\n")
+                : toReturn.result = "Aucune entrée de lore n'a été trouvée.";
+            return toReturn;
         }
         const result = await loreRepo.getLore(name);
         if (!result) {
-            return `No lore found for ${name}. Do \`/lore list\` to see all available lores.`; // Français or English?
+            return {
+                type: "text",
+                result: `No lore found for ${name}. Do \`/lore list\` to see all available lores.` // Français or English?
+            }
         }
-
-        return JSON.stringify( {
-            embeds: [
-                {
-                    title: result.title,
-                    description: result.description,
-                    color : result.color ? result.color : "#fff",
-                    image : result.image ? {url : result.image} : {},
-                    thumbnail : result.thumb ? {url : result.thumb} : {},
-                }
-            ]
-        })
+        const embed: Embed = {
+            title: result.title as string,
+            description: result.description as string,
+            color: result.color ? result.color as number: 1146986,
+            thumbnail: result.thumb ? {url : result.thumb as string} : undefined,
+            image: result.image ? {url : result.image as string} : undefined,
+        };
+        return {
+            type: "embed",
+            result: embed,
+        }
     }
 
     async run(ctx: IContext) {
         const name = ctx.getOption("name")?.toLowerCase() || "";
-        const outputString = await this.getOutputString(name);
-        ctx.replyText(outputString);
+        const output = await this.getOutput(name);
+        return output.type === "text" ? ctx.replyText(output.result as string) : ctx.replyEmbed(output.result as Embed);
     }
 }
