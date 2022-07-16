@@ -66,6 +66,6 @@ export default class Lore implements ICommand {
     async run(ctx: IContext) {
         const name = ctx.getOption("name")?.toLowerCase() || "";
         const output = await this.getOutput(name);
-        return output.type === "text" ? ctx.replyText(output.result as string) : ctx.replyEmbed(output.result as Embed);
+        output.type === "text" ? ctx.replyText(output.result as string) : ctx.replyEmbed(output.result as Embed);
     }
 }
