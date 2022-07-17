@@ -1,7 +1,9 @@
 import { mustExist } from "aqua";
 import app from "../app.ts";
-import { jsonResponse } from "../utils.ts";
+import { jsonResponse, isValidUrl } from "../utils.ts";
 import { loreRepo } from "db";
+
+const DEFAULT_COLOR = 1752220;
 
 app.get(
     "/api/lore/:name",
@@ -29,13 +31,21 @@ app.put(
         const name = req.parameters.name;
         const description = req.body.description as string;
         const title = req.body.title as string;
-        const color = req.body.color as string;
-        const image = req.body.image as string;
-        const thumb = req.body.thumb as string;
+        const color = req.body.color as number?? DEFAULT_COLOR;
+        const image = req.body.image as string?? "";
+        const thumb = req.body.thumb as string?? "";
         if (!description || !title) {
             return jsonResponse(400, {
                 error: "Bad request",
                 message: "Malformed request, missing description or title",
+                statusCode: "400",
+                timestamp: new Date().toISOString()
+            });
+        }
+        if ((image !== "" && !isValidUrl(image)) || (thumb !== "" && !isValidUrl(thumb))) {
+            return jsonResponse(400, {
+                error: "Bad request",
+                message: "Malformed request, invalid image or thumb url",
                 statusCode: "400",
                 timestamp: new Date().toISOString()
             });

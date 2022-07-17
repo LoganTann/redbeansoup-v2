@@ -11,7 +11,7 @@ export default class LoreRepository {
     constructor(private db: Database) {}
 
     async getLore(name: string): Promise<Lore> {
-        const loreValue = await Lore.select("title", "description")
+        const loreValue = await Lore.select("title", "description", "color", "thumb", "image")
             .where({ name })
             .first();
         return loreValue;
@@ -24,7 +24,7 @@ export default class LoreRepository {
         name: string,
         title: string,
         description: string,
-        color: string,
+        color: number,
         thumb: string,
         image: string
     ): Promise<Lore> {
@@ -34,9 +34,9 @@ export default class LoreRepository {
         }
         loreEntry.title = title;
         loreEntry.description = description;
-        loreEntry.description = color;
-        loreEntry.description = thumb;
-        loreEntry.description = image;
+        loreEntry.color = color;
+        loreEntry.thumb = thumb;
+        loreEntry.image = image;
         return await loreEntry.update();
     }
     async deleteLore(name: string): Promise<number> {

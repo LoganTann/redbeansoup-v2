@@ -10,3 +10,12 @@ export function jsonResponse(
         content: JSON.stringify(body),
     };
 }
+
+export const isValidUrl = (url: string) => {
+    try {
+        new URL(url);
+        return true;
+    } catch (_e) {
+        return false;
+    }
+}
