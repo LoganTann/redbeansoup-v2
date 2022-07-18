@@ -13,6 +13,8 @@ export function jsonResponse(
 
 export const isValidUrl = (url: string) => {
     try {
+        if (url === "")
+            return true;
         new URL(url);
         return true;
     } catch (_e) {

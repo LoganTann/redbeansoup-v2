@@ -47,8 +47,8 @@ export default class Lore implements ICommand {
         if (!result) {
             return {
                 type: "text",
-                result: `No lore found for ${name}. Do \`/lore list\` to see all available lores.` // Français or English?
-            }
+                result: `No lore found for ${name}. Do \`/lore list\` to see all available lores.`
+            };
         }
         const embed: Embed = {
             title: result.title as string,
@@ -60,16 +60,15 @@ export default class Lore implements ICommand {
         return {
             type: "embed",
             result: embed,
-        }
+        };
     }
 
     async run(ctx: IContext) {
         const name = ctx.getOption("name")?.toLowerCase() || "";
         const output = await this.getOutput(name);
-        if (output.type === "text"){
-            ctx.replyText(output.result as string)
-            return
-        }
-        ctx.replyEmbed(output.result as Embed);
+        if (output.type === "text")
+            ctx.replyText(output.result as string);
+        else
+            ctx.replyEmbed(output.result as Embed);
     }
 }

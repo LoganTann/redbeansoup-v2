@@ -31,9 +31,9 @@ app.put(
         const name = req.parameters.name;
         const description = req.body.description as string;
         const title = req.body.title as string;
-        const color = req.body.color as number?? DEFAULT_COLOR;
-        const image = req.body.image as string?? "";
-        const thumb = req.body.thumb as string?? "";
+        const color = req.body.color as number ?? DEFAULT_COLOR;
+        const image = req.body.image as string ?? "";
+        const thumb = req.body.thumb as string ?? "";
         if (!description || !title) {
             return jsonResponse(400, {
                 error: "Bad request",
@@ -42,7 +42,7 @@ app.put(
                 timestamp: new Date().toISOString()
             });
         }
-        if ((image !== "" && !isValidUrl(image)) || (thumb !== "" && !isValidUrl(thumb))) {
+        if (!isValidUrl(image) || !isValidUrl(thumb)) {
             return jsonResponse(400, {
                 error: "Bad request",
                 message: "Malformed request, invalid image or thumb url",
