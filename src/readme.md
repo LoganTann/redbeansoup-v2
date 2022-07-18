@@ -15,6 +15,7 @@ This behavior takes inspiration from the Salesforce Lightning Web Component fron
 * Any command should be declared in a file like this `src/commands/<commandName>/<commandName>.ts`.
 * You are free to add more files in the folder of the command, but it won't be autoloaded.
 * All files and folders should be camelCase.
+* If relevant, the source file must be prefixed by its group. Eg : `$momo` belongs to the group `ai`, so its file should be located at `src/commands/ai_momo/ai_momo.ts`
 
 #### Events
 
