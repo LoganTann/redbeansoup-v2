@@ -1,6 +1,6 @@
 export function jsonResponse(
     code: number,
-    body: Record<string, unknown> | Array<unknown>
+    body?: Record<string, unknown> | Array<unknown>
 ) {
     return {
         statusCode: code,

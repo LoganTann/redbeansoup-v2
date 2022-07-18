@@ -55,7 +55,7 @@ app.put(
         if (!results) {
             return jsonResponse(400, { error: "Bad request.", message: "Upsert failed, couldn't update or add the lore.", statusCode: 400, timestamp: new Date().toISOString()});
         }
-        return jsonResponse(200, results); // 201 seems to be a better response code for a successful PUT but 200 is ok if lore already exists
+        return jsonResponse(results["title"] ? 200 : 201, undefined);
     },
     {
         schema: {
@@ -74,7 +74,7 @@ app.delete(
         const name = req.parameters.name;
         const results = await loreRepo.deleteLore(name);
         if (results) {
-            return jsonResponse(200, { success: true }); // 204 without body (no content). Body is just a repeat of status code
+            return jsonResponse(204, undefined);
         }
         return jsonResponse(404, {
             error: "Not found",
