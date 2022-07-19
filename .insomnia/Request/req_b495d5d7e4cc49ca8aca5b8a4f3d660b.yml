@@ -1,0 +1,21 @@
+_id: req_b495d5d7e4cc49ca8aca5b8a4f3d660b
+type: Request
+parentId: fld_ec27cdd3eafb4b26a598fc4c7fc9c4bd
+modified: 1658263721971
+created: 1658262832755
+url: http://localhost:3000/api/lore/poisson
+name: read [poisson] -> 200
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1658207334125.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
