@@ -1,0 +1,30 @@
+_id: req_cc32792738bd43078ae155d2d1c9c9bc
+type: Request
+parentId: fld_3a7e1c81291a4786b36acca8a0b330e9
+modified: 1658264125104
+created: 1658263300612
+url: http://localhost:3000/api/lore/poisson
+name: 400 missing desc/title
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"title": null,
+    	"description": null
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_2997196c22ec44769f99bc97077f9090
+authentication: {}
+metaSortKey: -1658262902888
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

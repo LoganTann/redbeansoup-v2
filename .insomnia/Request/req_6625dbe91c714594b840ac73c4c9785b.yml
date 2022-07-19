@@ -1,0 +1,33 @@
+_id: req_6625dbe91c714594b840ac73c4c9785b
+type: Request
+parentId: fld_ec27cdd3eafb4b26a598fc4c7fc9c4bd
+modified: 1658264026674
+created: 1658262843638
+url: http://localhost:3000/api/lore/poisson
+name: create [poisson] -> 201
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: >-
+    {
+    	"title": "Ene poisson",
+    	"description": "Ene avec une tête de poisson. Cursed.",
+    	"color": null,
+    	"image": "",
+    	"thumb": "https://media.discordapp.net/attachments/464393260534726666/942534297775124510/unknown.png"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_3553796ab20b4ee38096a1db29250291
+authentication: {}
+metaSortKey: -1658262800763
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

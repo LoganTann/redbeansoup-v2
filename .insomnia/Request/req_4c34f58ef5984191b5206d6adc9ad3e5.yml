@@ -1,0 +1,33 @@
+_id: req_4c34f58ef5984191b5206d6adc9ad3e5
+type: Request
+parentId: fld_3a7e1c81291a4786b36acca8a0b330e9
+modified: 1658263852988
+created: 1658263308513
+url: http://localhost:3000/api/lore/poisson
+name: 400 missing img url
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: >-
+    {
+    	"title": "Ene poisson",
+    	"description": "Ene avec une tête de poisson. Cursed.",
+    	"color": null,
+    	"image": "notvalid",
+    	"thumb": "https://media.discordapp.net/attachments/464393260534726666/942534297775124510/unknown.png"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+    id: pair_3650a357676c4d55bb9fe7fae5ff38a5
+authentication: {}
+metaSortKey: -1658262851850.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
