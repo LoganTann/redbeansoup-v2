@@ -1,0 +1,21 @@
+_id: req_f50cfa2c7dd545d59304c95fa349111a
+type: Request
+parentId: fld_3a7e1c81291a4786b36acca8a0b330e9
+modified: 1658264055200
+created: 1658263416298
+url: http://localhost:3000/api/lore/unexisting
+name: delete [unexisting] -> 404
+description: ""
+method: DELETE
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1658263209138
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

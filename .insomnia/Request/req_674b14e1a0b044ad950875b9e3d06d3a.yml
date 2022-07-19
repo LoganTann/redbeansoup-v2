@@ -1,0 +1,21 @@
+_id: req_674b14e1a0b044ad950875b9e3d06d3a
+type: Request
+parentId: fld_ec27cdd3eafb4b26a598fc4c7fc9c4bd
+modified: 1658263921264
+created: 1658262904994
+url: http://localhost:3000/api/lore
+name: (list) -> 200 [...] not empty
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1658207334075.5
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

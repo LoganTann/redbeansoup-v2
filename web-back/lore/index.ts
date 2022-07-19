@@ -8,7 +8,7 @@ import { loreRepo } from "db";
 app.get("/api/lore", async () => {
     const results = await loreRepo.list();
     if (!results) {
-        return jsonResponse(404, { error: "No results" });
+        return jsonResponse(200, []);
     }
     return jsonResponse(200, results);
 });

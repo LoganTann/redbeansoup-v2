@@ -1,0 +1,21 @@
+_id: req_f69ad48a40124b0991344ea8d0f160f6
+type: Request
+parentId: fld_3a7e1c81291a4786b36acca8a0b330e9
+modified: 1658264051512
+created: 1658262800713
+url: http://localhost:3000/api/lore/unexisting
+name: read [unexisting] -> 404
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1658263209163
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

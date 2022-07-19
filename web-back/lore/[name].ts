@@ -1,7 +1,9 @@
 import { mustExist } from "aqua";
 import app from "../app.ts";
-import { jsonResponse } from "../utils.ts";
+import { jsonResponse, isValidUrl } from "../utils.ts";
 import { loreRepo } from "db";
+
+const DEFAULT_COLOR = 1752220;
 
 app.get(
     "/api/lore/:name",
@@ -9,7 +11,7 @@ app.get(
         const name = req.parameters.name;
         const results = await loreRepo.getLore(name);
         if (!results) {
-            return jsonResponse(404, { error: "No matches found" });
+            return jsonResponse(404, { error: "Not found", message : `Not found, no match for ${name} was found`, statusCode: "404", timestamp: new Date().toISOString()});
         }
         return jsonResponse(200, results);
     },
@@ -29,17 +31,31 @@ app.put(
         const name = req.parameters.name;
         const description = req.body.description as string;
         const title = req.body.title as string;
+        const color = req.body.color as number ?? DEFAULT_COLOR;
+        const image = req.body.image as string ?? "";
+        const thumb = req.body.thumb as string ?? "";
         if (!description || !title) {
-            return jsonResponse(404, {
-                error: "Missing description or title",
+            return jsonResponse(400, {
+                error: "Bad request",
+                message: "Malformed request, missing description or title",
+                statusCode: "400",
+                timestamp: new Date().toISOString()
+            });
+        }
+        if (!isValidUrl(image) || !isValidUrl(thumb)) {
+            return jsonResponse(400, {
+                error: "Bad request",
+                message: "Malformed request, invalid image or thumb url",
+                statusCode: "400",
+                timestamp: new Date().toISOString()
             });
         }
 
-        const results = await loreRepo.upsertLore(name, title, description);
+        const results = await loreRepo.upsertLore(name, title, description, color, thumb, image);
         if (!results) {
-            return jsonResponse(404, { error: "Upsert failed." });
+            return jsonResponse(400, { error: "Bad request.", message: "Upsert failed, couldn't update or add the lore.", statusCode: 400, timestamp: new Date().toISOString()});
         }
-        return jsonResponse(200, results);
+        return jsonResponse(results["title"] ? 200 : 201, undefined);
     },
     {
         schema: {
@@ -58,10 +74,13 @@ app.delete(
         const name = req.parameters.name;
         const results = await loreRepo.deleteLore(name);
         if (results) {
-            return jsonResponse(200, { success: true });
+            return jsonResponse(204, undefined);
         }
         return jsonResponse(404, {
-            error: "Delete failed. Maybe the entry you requested doesn't exist.",
+            error: "Not found",
+            message: "Delete failed. The entry you requested doesn't exist.",
+            statusCode: 404,
+            timestamp: new Date().toISOString()
         });
     },
     {
